@@ -30,7 +30,7 @@ async def timer_echo(stdscr: curses.window) -> None:
         curses_print(
             stdscr, timer_y, timer_x, f"Current Time = {current_time}", color_pair=1
         )
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(1)
 
 
 async def read_key(stdscr: curses.window) -> int:
