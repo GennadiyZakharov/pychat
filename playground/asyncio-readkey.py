@@ -11,7 +11,9 @@ KEYCODE_Y_COR = 5
 KEYCODE_X_COR = 1
 
 MESSAGE = """This is a simple program to get familiar with the main capabilities 
-of the Python AsyncIO module and the curses library
+of the Python AsyncIO module and the curses library.
+
+It reads key pressing and displays time in the background.
 
 The aim was to utilize all main asyncio mechanisms, 
 so some parts of the code may look like over-engineering. 
@@ -36,7 +38,7 @@ DateTimeQueue = asyncio.Queue[datetime]
 
 async def timer_generator(timer_queue: DateTimeQueue) -> None:
     """
-    Generates new time value each second and sends it to the queue
+    Generates a new timestamp every second and sends it to the queue
     """
     while True:
         now = datetime.now()
@@ -114,6 +116,9 @@ async def echo_key(stdscr: curses.window) -> None:
 
 
 def curses_init(stdscr: curses.window) -> None:
+    """
+    Initializes the curses library settings for the provided curses window.
+    """
     # Set non-blocking mode for key reading
     curses.halfdelay(1)
     # curses.cbreak() - not working, don't know why
@@ -130,6 +135,10 @@ def curses_init(stdscr: curses.window) -> None:
 
 
 def curses_shutdown(stdscr: curses.window) -> None:
+    """
+    Safely shuts down the curses application and restores the
+    terminal to its original state.
+    """
     # Enabling buffering mode
     curses.nocbreak()
     # Turn echo back on.
@@ -143,7 +152,11 @@ def curses_shutdown(stdscr: curses.window) -> None:
 
 
 async def main(stdscr: curses.window) -> None:
-
+    """
+    Initializes a curses window, sets up a
+    producer-consumer queue for handling timer events through asyncio, processes
+    keyboard input, and cleans up before exiting.
+    """
     curses_init(stdscr)
 
     # Creating producer-consumer queue for timer
